@@ -1,22 +1,18 @@
-import { Message } from 'node-nats-streaming';
-import { Subjects, Listener, TicketCreatedEvent } from '@cygnetops/common';
+import { Subjects, Listener, TicketCreatedEvent } from '@munlib/common';
 import { Ticket } from '../../models/ticket';
-import { queueGroupName } from './queue-group-name';
+import { ConsumeMessage } from "amqplib";
 
 export class TicketCreatedListener extends Listener<TicketCreatedEvent> {
-  subject: Subjects.TicketCreated = Subjects.TicketCreated;
-  queueGroupName = queueGroupName;
+    subject: Subjects.TicketCreated = Subjects.TicketCreated;
 
-  async onMessage(data: TicketCreatedEvent['data'], msg: Message) {
-    const { id, title, price } = data;
-
-    const ticket = Ticket.build({
-      id,
-      title,
-      price,
-    });
-    await ticket.save();
-
-    msg.ack();
-  }
+    async onMessage(data: TicketCreatedEvent["data"], msg: ConsumeMessage) {
+        const { id, title, price } = data;
+        console.log("TicketCreatedListener", data);
+        const ticket = Ticket.build({
+            id,
+            title,
+            price,
+        });
+        await ticket.save();
+    }
 }

@@ -20,8 +20,8 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
-            - name: NATS_URL
-              value: 'http://nats-srv:4222'
+            - name: MESSAGE_BROKER_URL
+              value: 'amqp://rabbitmq-srv:5672'
             - name: NATS_CLUSTER_ID
               value: ticketing
             - name: MONGO_URI

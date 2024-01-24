@@ -1,23 +1,28 @@
-import nats from 'node-nats-streaming';
-import { TicketCreatedPublisher } from './events/ticket-created-publisher';
+// publisher.ts
+import * as amqp from "amqplib";
+import { TicketCreatedPublisher } from "./events/ticket-created-publisher";
 
 console.clear();
 
-const stan = nats.connect('ticketing', 'abc', {
-  url: 'http://localhost:4222',
-});
+const start = async () => {
+    const connection = await amqp.connect("amqp://localhost:5672");
+    const channel = await connection.createChannel();
 
-stan.on('connect', async () => {
-  console.log('Publisher connected to NATS');
+    //await channel.assertQueue("ticket-created"); // Debes crear la cola antes de publicar
+    const publisher = new TicketCreatedPublisher(channel);
 
-  const publisher = new TicketCreatedPublisher(stan);
-  try {
-    await publisher.publish({
-      id: '123',
-      title: 'concert',
-      price: 20,
-    });
-  } catch (err) {
-    console.error(err);
-  }
-});
+    try {
+        await publisher.publish({
+            id: "123",
+            title: "concert",
+            price: 20,
+        });
+    } catch (err) {
+        console.error(err);
+    }
+
+   await channel.close();
+   ///await connection.close();
+};
+
+start();
