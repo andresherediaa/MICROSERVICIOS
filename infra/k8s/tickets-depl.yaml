@@ -12,6 +12,10 @@ spec:
       labels:
         app: tickets
     spec:
+      initContainers:
+        - name: wait-for-primer-deploy
+          image: busybox
+          command: ['sh', '-c', 'until nslookup rabbitmq-srv; do echo waiting for RabbitMQ; sleep 2; done']
       containers:
         - name: tickets
           image: 23131232131231231/tickets
@@ -21,9 +25,7 @@ spec:
                 fieldRef:
                   fieldPath: metadata.name
             - name: MESSAGE_BROKER_URL
-              value: 'amqp://rabbitmq-srv:5672'
-            - name: NATS_CLUSTER_ID
-              value: ticketing
+              value: 'amqp://rabbitmq-srv'
             - name: MONGO_URI
               value: 'mongodb://tickets-mongo-srv:27017/tickets'
             - name: JWT_KEY

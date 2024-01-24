@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "start": "ts-node-dev src/index.ts",
+        "start": "nodemon --exec ts-node src/index.ts",
         "test": "jest --watchAll --no-cache"
     },
     "jest": {
@@ -32,5 +32,8 @@
         "ts-node": "^10.9.1",
         "ts-node-dev": "^1.1.6",
         "typescript": "^5.2.2"
+    },
+    "devDependencies": {
+        "nodemon": "^3.0.3"
     }
 }

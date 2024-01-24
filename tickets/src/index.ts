@@ -14,20 +14,21 @@ const start = async () => {
     if (!process.env.MESSAGE_BROKER_URL) {
         throw new Error("MESSAGE_BROKER_URL must be defined");
     }
+
     try {
+        await mongoose.connect(process.env.MONGO_URI);
+        console.log("Connected to MongoDb");
         await messageBrokerWrapper.connectRabbitMQ(
             process.env.MESSAGE_BROKER_URL
         );
         // Configurar listeners para eventos
         new OrderCreatedListener(messageBrokerWrapper.client).listen();
         //new OrderCancelledListener(messageBrokerWrapper.client).listen();
-        await mongoose.connect(process.env.MONGO_URI);
-        console.log("Connected to MongoDb");
     } catch (err) {
-        console.error(err);
+        console.error("----------------", err);
     }
     app.listen(3000, () => {
-        console.log("Listening on port 3000!!!!!!!!");
+        console.log("Listening on port 3000!!");
     });
 };
 

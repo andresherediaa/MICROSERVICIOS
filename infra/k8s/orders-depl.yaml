@@ -12,6 +12,10 @@ spec:
       labels:
         app: orders
     spec:
+      initContainers:
+        - name: wait-for-rabbitmq
+          image: busybox
+          command: ['sh', '-c', 'until nslookup amqp://rabbitmq-srv; do echo waiting for RabbitMQ; sleep 2; done']
       containers:
         - name: orders
           image: 23131232131231231/orders
@@ -21,7 +25,7 @@ spec:
                 fieldRef:
                   fieldPath: metadata.name
             - name: MESSAGE_BROKER_URL
-              value: 'amqp://rabbitmq-srv:5672'
+              value: 'amqp://rabbitmq-srv'
             - name: NATS_CLUSTER_ID
               value: ticketing
             - name: MONGO_URI

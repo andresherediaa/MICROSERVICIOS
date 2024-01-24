@@ -8,14 +8,6 @@ build:
   local:
     push: false
   artifacts:
-    - image: 23131232131231231/auth
-      context: auth
-      docker:
-        dockerfile: Dockerfile
-      sync:
-        manual:
-          - src: 'src/**/*.ts'
-            dest: .
     - image: 23131232131231231/tickets
       context: tickets
       docker:
@@ -24,11 +16,19 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: .
-    # - image: 23131232131231231/orders
-    #   context: orders
-    #   docker:
-    #     dockerfile: Dockerfile
-    #   sync:
-    #     manual:
-    #       - src: 'src/**/*.ts'
-    #         dest: .
+    - image: 23131232131231231/orders
+      context: orders
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
+    - image: 23131232131231231/auth
+      context: auth
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .

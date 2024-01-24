@@ -14,10 +14,9 @@ const start = async () => {
   if (!process.env.MESSAGE_BROKER_URL) {
       throw new Error("MESSAGE_BROKER_URL must be defined");
   }
-
   try {
     await messageBrokerWrapper.connectRabbitMQ(process.env.MESSAGE_BROKER_URL);
-    new TicketCreatedListener(messageBrokerWrapper.client).listen(); //cola durable true
+    new TicketCreatedListener(messageBrokerWrapper.client).listen();
     //new TicketUpdatedListener(natsWrapper.client).listen();
     await mongoose.connect(process.env.MONGO_URI);
     console.log('Connected to MongoDb');

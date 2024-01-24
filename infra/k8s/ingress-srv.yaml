@@ -31,13 +31,6 @@ spec:
                 name: orders-srv
                 port:
                   number: 3000
-          - path: /rabbitmq/?(.*)
-            pathType: Prefix
-            backend:
-              service:
-                name: rabbitmq-srv
-                port:
-                  number: 5672
           - path: /?(.*)
             pathType: Prefix
             backend:

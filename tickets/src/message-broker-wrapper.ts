@@ -17,6 +17,7 @@ class MessageBrokerWrapper {
         this._client = await connection.createChannel();
         console.log("Connected to RabbitMQ");
     }
+
 }
 
 export const messageBrokerWrapper = new MessageBrokerWrapper();

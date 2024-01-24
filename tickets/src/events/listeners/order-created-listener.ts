@@ -10,7 +10,7 @@ export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
         // Find the ticket that the order is reserving
         const ticket = await Ticket.findById(data.ticket.id);
 
-        console.log("OrderCreatedListene", data);
+        console.log("OrderCreatedListener", data);
         // If no ticket, throw error
         if (!ticket) {
             throw new Error("Ticket not found");
